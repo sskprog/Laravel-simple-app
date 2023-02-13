@@ -21,8 +21,8 @@
         <thead>
             <tr>
                 <th>№</th>
-                <th>Название</th>
                 <th>Логотип</th>
+                <th>Название</th>
                 <th>Email</th>
                 <th>Адрес</th>
                 <th width="280px">Действия</th>
@@ -38,10 +38,10 @@
                     <td>{{ $company->address }}</td>
                     <td>
                         <form action="{{ route('companies.destroy',$company->id) }}" method="Post">
-                            <a class="btn btn-primary" href="{{ route('companies.edit',$company->id) }}">Edit</a>
+                            <a class="btn btn-primary" href="{{ route('companies.edit',$company->id) }}">Редактировать</a>
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
                         </form>
                     </td>
                 </tr>
