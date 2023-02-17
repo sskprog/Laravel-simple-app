@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,7 +15,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('id', 'desc')->paginate(5);
+        $companies = Company::orderBy('id')->get();
         return view('companies.index', compact('companies'));
     }
 
@@ -36,16 +37,19 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validator($request);
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:companies,email',
-        //     'address' => 'required',
-        // ]);
 
-        Company::create($request->post());
-
-        return redirect()->route('companies.index')->with('success', 'Company has been created successfully.');
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:companies,email',
+            'address' => 'required',
+        ]);
+        try {
+            Company::create($request->post());
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('companies.index')->with('error', "При создании записи произошла ошибка: $errorInfo.");
+        }
+        return redirect()->route('companies.index')->with('success', 'Запись успешно создана.');
     }
 
     /**
@@ -79,16 +83,20 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:companies,email',
-        //     'address' => 'required',
-        // ]);
-        $this->validator($request);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'email' => 'unique:companies,email,' . $company->id,
+            'address' => 'required',
+        ]);
 
-        $company->fill($request->post())->save();
-
-        return redirect()->route('companies.index')->with('success', 'Company Has Been updated successfully');
+        try {
+            $company->fill($request->post())->save();
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('companies.index')->with('error', "При обновлении записи произошла ошибка: $errorInfo.");
+        }
+        return redirect()->route('companies.index')->with('success', 'Запись была успешно обновлена');
     }
 
     /**
@@ -99,16 +107,12 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $company->delete();
-        return redirect()->route('companies.index')->with('success', 'Company has been deleted successfully');
-    }
-    protected function validator($request) {
-
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:companies,email',
-            'address' => 'required',
-        ]);
-
+        try {
+            $company->delete();
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('companies.index')->with('error', "При удалении записи произошла ошибка: $errorInfo.");
+        }
+        return redirect()->route('companies.index')->with('success', 'Запись была успешно удалена');
     }
 }
