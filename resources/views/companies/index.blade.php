@@ -13,14 +13,19 @@
         </div>
     </div>
     @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
+    <div class="alert alert-success">
+        <p>{{ $message }}</p>
+    </div>
+    @endif
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <p>{{ $message }}</p>
+    </div>
     @endif
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>№</th>
+                <th>ID</th>
                 <th>Логотип</th>
                 <th>Название</th>
                 <th>Email</th>
@@ -30,24 +35,23 @@
         </thead>
         <tbody>
             @foreach ($companies as $company)
-                <tr>
-                    <td>{{ $company->id }}</td>
-                    <td>{{ $company->logo }}</td>
-                    <td>{{ $company->name }}</td>
-                    <td>{{ $company->email }}</td>
-                    <td>{{ $company->address }}</td>
-                    <td>
-                        <form action="{{ route('companies.destroy',$company->id) }}" method="Post">
-                            <a class="btn btn-primary" href="{{ route('companies.edit',$company->id) }}">Редактировать</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Удалить</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
+            <tr>
+                <td>{{ $company->id }}</td>
+                <td>{{ $company->logo }}</td>
+                <td>{{ $company->name }}</td>
+                <td>{{ $company->email }}</td>
+                <td>{{ $company->address }}</td>
+                <td>
+                    <form action="{{ route('companies.destroy',$company->id) }}" method="Post">
+                        <a class="btn btn-primary" href="{{ route('companies.edit',$company->id) }}">Редактировать</a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
-    {!! $companies->links() !!}
 </div>
 @endsection
