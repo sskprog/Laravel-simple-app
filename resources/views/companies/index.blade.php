@@ -56,7 +56,11 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#companies-table').DataTable();
+        $('#companies-table').DataTable({
+            "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+        });
     });
 </script>
 @endsection
