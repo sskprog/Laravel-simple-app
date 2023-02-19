@@ -38,19 +38,22 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:companies,email',
             'address' => 'required|max:255',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
         ]);
-        $path = Storage::putFile('logos', $request->file('logo'));
+        $company = new Company;
+        $company->name = $request->name;
+        $company->email = $request->email;
+        $company->address = $request->address;
+        if($request->file('logo')) {
+            $path = Storage::putFile('logos', $request->file('logo'));
+            $company->logo = $path;
+        }
         try {
-            Company::create(['name' => $request->name,
-                            'email' => $request->email,
-                            'address' => $request->address,
-                            'logo' => $path]);
+            $company->save();
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
             return redirect()->route('companies.index')->with('error', "При создании записи произошла ошибка: $errorInfo.");
@@ -97,17 +100,21 @@ class CompanyController extends Controller
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
         ]);
 
-        if (Storage::exists($company->logo)) {
-            Storage::delete($company->logo);
+        if($request->file('logo')) {
+            $path = Storage::putFile('logos', $request->file('logo'));
+            if ($company->logo && Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            }
         }
+        else $path = null;
 
-        $path = Storage::putFile('logos', $request->file('logo'));
+        $company->fill($request->post());
+            if($path) {
+                $company->fill(['logo' => $path]);
+            }
+
         try {
-            $company->fill(['name' => $request->name,
-                            'email' => $request->email,
-                            'address' => $request->address,
-                            'logo' => $path])
-                            ->save();
+            $company->save();
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
             return redirect()->route('companies.index')->with('error', "При обновлении записи произошла ошибка: $errorInfo.");
