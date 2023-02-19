@@ -22,7 +22,7 @@
         <p>{{ $message }}</p>
     </div>
     @endif
-    <table class="table table-bordered">
+    <table id="companies-table" class="table table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>ID</th>
@@ -37,7 +37,7 @@
             @foreach ($companies as $company)
             <tr>
                 <td>{{ $company->id }}</td>
-                <td><img src = "{{ asset($company->logo)}}" height="40" alt="logo"></td>
+                <td><img src="{{ asset($company->logo)}}" height="40" alt="logo"></td>
                 <td>{{ $company->name }}</td>
                 <td>{{ $company->email }}</td>
                 <td>{{ $company->address }}</td>
@@ -54,4 +54,9 @@
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#companies-table').DataTable();
+    });
+</script>
 @endsection
