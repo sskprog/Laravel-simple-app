@@ -7,8 +7,8 @@
     @enderror
 </div>
 <div class="mb-3">
-    <label for="email" class="form-label">Электронная почта</label>
-    <input type="text" class="form-control" name="email" placeholder="Электронная почта"
+    <label for="email" class="form-label">Email</label>
+    <input type="text" class="form-control" name="email" placeholder="Email"
         value="{{ $company ? $company->email : old('name') }}">
     @error('email')
     <div class="form-text text-danger">{{ $message }}</div>
@@ -22,7 +22,11 @@
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
 </div>
-<div class="input-group mb-3">
-    <input type="file" class="form-control">
+<div class="mb-3">
+    <label for="logo" class="form-label">Логотип</label>
+    <input type="file" class="form-control" name="logo">
+    @error('logo')
+    <div class="form-text text-danger">{{ $message }}</div>
+    @enderror
 </div>
 <button type="submit" class="btn btn-primary"> {{ $company ? 'Сохранить' : 'Создать' }} </button>
