@@ -9,7 +9,7 @@
 <div class="mb-3">
     <label for="email" class="form-label">Email</label>
     <input type="text" class="form-control" name="email" placeholder="Email"
-        value="{{ $company ? $company->email : old('name') }}">
+        value="{{ $company ? $company->email : old('email') }}">
     @error('email')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
@@ -17,7 +17,7 @@
 <div class="mb-3">
     <label for="address" class="form-label">Адрес</label>
     <input type="text" class="form-control" name="address" placeholder="Адрес компании"
-        value="{{ $company ? $company->address : old('name') }}">
+        value="{{ $company ? $company->address : old('address') }}">
     @error('address')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
