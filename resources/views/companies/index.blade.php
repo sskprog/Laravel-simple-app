@@ -37,7 +37,7 @@
             @foreach ($companies as $company)
             <tr>
                 <td>{{ $company->id }}</td>
-                <td>{{ $company->logo }}</td>
+                <td><img src = "{{ asset($company->logo)}}" height="40" alt="logo"></td>
                 <td>{{ $company->name }}</td>
                 <td>{{ $company->email }}</td>
                 <td>{{ $company->address }}</td>
