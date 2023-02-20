@@ -14,11 +14,6 @@
     </div>
     <div class="d-flex justify-content-center">
         <div class="col-12 col-lg-6 ">
-            @if(session('status'))
-            <div class="alert alert-success mb-1 mt-1">
-                {{ session('status') }}
-            </div>
-            @endif
             <form action="{{ route('companies.update',$company->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
