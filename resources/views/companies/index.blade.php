@@ -42,13 +42,13 @@
                 <td>{{ $company->email }}</td>
                 <td>{{ $company->address }}</td>
                 <td>
-                    <form action="{{ route('companies.destroy',$company->id) }}" method="Post">
-                        <a class="btn btn-primary fs-5" href="{{ route('companies.show',$company->id) }}"
+                    <form action="{{ route('companies.destroy',$company->id) }}" method="POST" id="delete-company-form">
+                        <a class="btn btn-primary fs-5" href="{{ route('companies.show',$company->id) }} "
                             title="Просмотр">
                             <i class="bi bi-eye"></i>
                         </a>
                         <a class="btn btn-success fs-5" href="{{ route('companies.edit',$company->id) }}"
-                            title="Редактировать">
+                            title="Редактировать" id="temp">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         @csrf
@@ -70,6 +70,13 @@
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
         });
+        $('#delete-company-form > button').click(function(event){
+            event.preventDefault();
+            if (window.confirm('Действительно удалить запись?')){
+                $('#delete-company-form').submit();
+            }
+            else return false;
+        })
     });
 </script>
 @endsection
