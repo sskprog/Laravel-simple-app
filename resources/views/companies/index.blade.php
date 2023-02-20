@@ -30,7 +30,7 @@
                 <th>Название</th>
                 <th>Email</th>
                 <th>Адрес</th>
-                <th width="280px">Действия</th>
+                <th width="130px">Действия</th>
             </tr>
         </thead>
         <tbody>
@@ -43,10 +43,19 @@
                 <td>{{ $company->address }}</td>
                 <td>
                     <form action="{{ route('companies.destroy',$company->id) }}" method="Post">
-                        <a class="btn btn-primary" href="{{ route('companies.edit',$company->id) }}">Редактировать</a>
+                        <a class="btn btn-primary fs-5" href="{{ route('companies.show',$company->id) }}"
+                            title="Просмотр">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-success fs-5" href="{{ route('companies.edit',$company->id) }}"
+                            title="Редактировать">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Удалить</button>
+                        <button type="submit" class="btn btn-danger fs-5" title="Удалить">
+                            <i class="bi bi-trash3"></i>
+                        </button>
                     </form>
                 </td>
             </tr>
