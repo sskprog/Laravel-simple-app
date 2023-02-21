@@ -1,7 +1,7 @@
 <div class="mb-3">
     <label for="name" class="form-label">Название</label>
     <input type="text" class="form-control" name="name" placeholder="Название компании"
-        value="{{  $company ? $company->name : old('name') }}">
+        value="{{ isset($company) ? $company->name : old('name') }}">
     @error('name')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
@@ -9,7 +9,7 @@
 <div class="mb-3">
     <label for="email" class="form-label">Email</label>
     <input type="text" class="form-control" name="email" placeholder="Email"
-        value="{{ $company ? $company->email : old('email') }}">
+        value="{{ isset($company) ? $company->email : old('email') }}">
     @error('email')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
@@ -17,7 +17,7 @@
 <div class="mb-3">
     <label for="address" class="form-label">Адрес</label>
     <input type="text" class="form-control" name="address" placeholder="Адрес компании"
-        value="{{ $company ? $company->address : old('address') }}">
+        value="{{ isset($company) ? $company->address : old('address') }}">
     @error('address')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
@@ -29,4 +29,4 @@
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
 </div>
-<button type="submit" class="btn btn-primary"> {{ $company ? 'Сохранить' : 'Создать' }} </button>
+<button type="submit" class="btn btn-primary"> {{ isset($company) ? 'Сохранить' : 'Создать' }} </button>

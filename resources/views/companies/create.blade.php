@@ -17,7 +17,7 @@
         <div class="col-12 col-lg-6 ">
             <form action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @include('companies._form', ['company' => null])
+                @include('companies._form')
             </form>
         </div>
     </div>
