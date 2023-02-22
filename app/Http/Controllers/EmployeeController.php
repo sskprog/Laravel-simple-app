@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Employee;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -15,7 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = Employee::orderBy('id')->get();
+        return view('employees.index', compact('employees'));
     }
 
     /**
@@ -25,7 +27,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $companies = Company::pluck('name', 'id');
+        $companies = Company::orderBy('name')->pluck('name', 'id');
         return view('employees.create', compact('companies'));
     }
 
@@ -37,7 +39,24 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'full_name' => 'required|max:255',
+            'email' => 'required|email|unique:employees,email',
+            'phone' => 'required|max:255',
+        ]);
+        $employee = new Employee();
+        $employee->full_name = $request->full_name;
+        $employee->company_id = $request->company_id;
+        $employee->email = $request->email;
+        $employee->phone = $request->phone;
+
+        try {
+            $employee->save();
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('employees.index')->with('error', "При создании записи произошла ошибка: $errorInfo[2].");
+        }
+        return redirect()->route('employees.index')->with('success', 'Запись успешно создана.');
     }
 
     /**
