@@ -40,18 +40,12 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'full_name' => 'required|max:255',
+            'emp_name' => 'required|max:255',
             'email' => 'required|email|unique:employees,email',
             'phone' => 'required|max:255',
         ]);
-        $employee = new Employee();
-        $employee->full_name = $request->full_name;
-        $employee->company_id = $request->company_id;
-        $employee->email = $request->email;
-        $employee->phone = $request->phone;
-
         try {
-            $employee->save();
+            Employee::create($request->post());
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
             return redirect()->route('employees.index')->with('error', "При создании записи произошла ошибка: $errorInfo[2].");
@@ -78,7 +72,8 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $companies = Company::orderBy('name')->pluck('name', 'id');
+        return view('employees.edit', compact('companies', 'employee'));
     }
 
     /**
@@ -90,7 +85,20 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'emp_name' => 'required|max:255',
+            'email' => 'required|email|unique:employees,email',
+            'email' => 'unique:employees,email,' . $employee->id,
+            'phone' => 'required|max:255',
+        ]);
+        $employee->fill($request->post());
+        try {
+            $employee->save();
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('employees.index')->with('error', "При создании записи произошла ошибка: $errorInfo[2].");
+        }
+        return redirect()->route('employees.index')->with('success', 'Запись успешно создана.');
     }
 
     /**
