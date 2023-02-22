@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Employee extends Model
 {
     use HasFactory;
-    protected $fillable = ['fullname', 'email', 'phone', 'company_id'];
+    protected $fillable = ['emp_name', 'email', 'phone', 'company_id'];
 
     public function company()
     {
