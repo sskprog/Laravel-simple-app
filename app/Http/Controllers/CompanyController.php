@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +48,7 @@ class CompanyController extends Controller
         $company->name = $request->name;
         $company->email = $request->email;
         $company->address = $request->address;
-        if($request->file('logo')) {
+        if ($request->file('logo')) {
             $path = Storage::putFile('logos', $request->file('logo'));
             $company->logo = $path;
         }
@@ -69,7 +69,16 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return view('companies.show', compact('company'));
+        $employees = Employee::where('company_id', '=', $company->id)->pluck('emp_name')->toArray();
+
+        if (count($employees) > 1) {
+            $employees = implode(', ', $employees);
+        } elseif (count($employees) === 1) {
+            $employees = $employees[0];
+        } else {
+            $employees = 'Нет сотрудников';
+        }
+        return view('companies.show', compact('company', 'employees'));
     }
 
     /**
@@ -100,18 +109,19 @@ class CompanyController extends Controller
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|dimensions:min_width=100,min_height=100',
         ]);
 
-        if($request->file('logo')) {
+        if ($request->file('logo')) {
             $path = Storage::putFile('logos', $request->file('logo'));
             if ($company->logo && Storage::exists($company->logo)) {
                 Storage::delete($company->logo);
             }
+        } else {
+            $path = null;
         }
-        else $path = null;
 
         $company->fill($request->post());
-            if($path) {
-                $company->fill(['logo' => $path]);
-            }
+        if ($path) {
+            $company->fill(['logo' => $path]);
+        }
 
         try {
             $company->save();
