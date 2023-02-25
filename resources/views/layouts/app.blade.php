@@ -94,5 +94,5 @@
         </main>
     </div>
 </body>
-
+<script src="/js/site.js"></script>
 </html>
