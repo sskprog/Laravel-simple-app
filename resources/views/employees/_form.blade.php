@@ -1,16 +1,16 @@
 <div class="mb-3">
-    <label for="fullname" class="form-label">ФИО</label>
-    <input type="text" class="form-control" name="name" placeholder="ФИО"
-        value="{{ isset($employee) ? $employee->fullname : old('fullname') }}">
-    @error('fullname')
+    <label for="emp_name" class="form-label">ФИО</label>
+    <input type="text" class="form-control" name="emp_name" placeholder="ФИО"
+        value="{{ isset($employee) ? $employee->emp_name : old('emp_name') }}">
+    @error('emp_name')
     <div class="form-text text-danger">{{ $message }}</div>
     @enderror
 </div>
 <div class="mb-3">
     <label for="company" class="form-label">Компания</label>
-    <select name="select" class="form-select">
+    <select name="company_id" class="form-select">
         @foreach ($companies as $key => $value)
-        <option value="{{$key}}">{{$value}}</option>
+        <option value="{{$key}}" {{ isset($employee) && $key === $employee->company_id ? 'selected' : false }}> {{$value}}</option>
         @endforeach
       </select>
 </div>
