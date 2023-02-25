@@ -56,7 +56,7 @@ class CompanyController extends Controller
             $company->save();
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
-            return redirect()->route('companies.index')->with('error', "При создании записи произошла ошибка: $errorInfo.");
+            return redirect()->route('companies.index')->with('error', "При создании записи произошла ошибка: $errorInfo[2].");
         }
         return redirect()->route('companies.index')->with('success', 'Запись успешно создана.');
     }
@@ -117,7 +117,7 @@ class CompanyController extends Controller
             $company->save();
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
-            return redirect()->route('companies.index')->with('error', "При обновлении записи произошла ошибка: $errorInfo.");
+            return redirect()->route('companies.index')->with('error', "При обновлении записи произошла ошибка: $errorInfo[2].");
         }
         return redirect()->route('companies.index')->with('success', 'Запись была успешно обновлена');
     }
@@ -134,7 +134,7 @@ class CompanyController extends Controller
             $company->delete();
         } catch (QueryException $exception) {
             $errorInfo = $exception->errorInfo;
-            return redirect()->route('companies.index')->with('error', "При удалении записи произошла ошибка: $errorInfo.");
+            return redirect()->route('companies.index')->with('error', "При удалении записи произошла ошибка: $errorInfo[2].");
         }
         return redirect()->route('companies.index')->with('success', 'Запись была успешно удалена');
     }
