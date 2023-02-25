@@ -30,30 +30,30 @@
                 <th>Компания</th>
                 <th>Email</th>
                 <th>Телефон</th>
-                <th width="130px">Действия</th>
+                <th width="140px">Действия</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($employees as $employee)
             <tr>
                 <td>{{ $employee->id }}</td>
-                <td>{{ $employee->fullname }}</td>
+                <td>{{ $employee->emp_name }}</td>
                 <td>{{ $employee->company->name }}</td>
                 <td>{{ $employee->email }}</td>
                 <td>{{ $employee->phone }}</td>
                 <td>
-                    <form action="{{ route('employees.destroy',$employee->id) }}" method="POST" id="delete-employee-form">
-                        <a class="btn btn-primary fs-5" href="{{ route('employees.show',$company->id) }} "
+                    <form action="{{ route('employees.destroy',$employee->id) }}" method="POST">
+                        <a class="btn btn-primary fs-5" href="{{ route('employees.show',$employee->id) }} "
                             title="Просмотр">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a class="btn btn-success fs-5" href="{{ route('employees.edit',$company->id) }}"
-                            title="Редактировать" id="temp">
+                        <a class="btn btn-success fs-5" href="{{ route('employees.edit',$employee->id) }}"
+                            title="Редактировать">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger fs-5" title="Удалить">
+                        <button type="submit" class="btn btn-danger fs-5 delete-btn" title="Удалить">
                             <i class="bi bi-trash3"></i>
                         </button>
                     </form>
@@ -63,20 +63,5 @@
         </tbody>
     </table>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#employees-table').DataTable({
-            "language": {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-            },
-        });
-        $('#delete-company-form > button').click(function(event){
-            event.preventDefault();
-            if (window.confirm('Действительно удалить запись?')){
-                $('#delete-company-form').submit();
-            }
-            else return false;
-        })
-    });
-</script>
+
 @endsection
