@@ -46,7 +46,7 @@
                                     <p>Сотрудники</p>
                                 </div>
                                 <div class="col-8">
-                                    <p>{{$employees?: false}}</p>
+                                    <p>{{$employees}}</p>
                                 </div>
                             </div>
                         </div>
