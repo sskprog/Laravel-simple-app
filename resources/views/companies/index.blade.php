@@ -30,7 +30,7 @@
                 <th>Название</th>
                 <th>Email</th>
                 <th>Адрес</th>
-                <th width="130px">Действия</th>
+                <th width="140px">Действия</th>
             </tr>
         </thead>
         <tbody>
