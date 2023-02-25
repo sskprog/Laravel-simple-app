@@ -53,7 +53,7 @@
                         </a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger fs-5" title="Удалить">
+                        <button type="submit" class="btn btn-danger fs-5 delete-btn" title="Удалить">
                             <i class="bi bi-trash3"></i>
                         </button>
                     </form>
@@ -63,20 +63,5 @@
         </tbody>
     </table>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#companies-table').DataTable({
-            "language": {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-            },
-        });
-        $('#delete-company-form > button').click(function(event){
-            event.preventDefault();
-            if (window.confirm('Действительно удалить запись?')){
-                $('#delete-company-form').submit();
-            }
-            else return false;
-        })
-    });
-</script>
+
 @endsection
