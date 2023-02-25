@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Company;
@@ -61,7 +60,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        dd($employee);
     }
 
     /**
@@ -109,6 +108,12 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        try {
+            $employee->delete();
+        } catch (QueryException $exception) {
+            $errorInfo = $exception->errorInfo;
+            return redirect()->route('employees.index')->with('error', "При удалении записи произошла ошибка: $errorInfo[2].");
+        }
+        return redirect()->route('employees.index')->with('success', 'Запись была успешно удалена');
     }
 }
