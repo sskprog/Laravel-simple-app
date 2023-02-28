@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">Домашняя страница</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    @auth
+                        Вы авторизовались. Можете начать работу.
+                    @endauth
+                    @guest
+                    <a href="{{ route('login') }}">Авторизуйтесь</a>, чтобы начать работу.
+                    @endguest
                 </div>
             </div>
         </div>
