@@ -20,7 +20,7 @@
                 </div>
                 <div class="row g-0">
                     <div class="col-md-2">
-                        <img src="{{ asset($company->logo)}}" class="img-fluid rounded-start" alt="logo">
+                        <img src="{{ $company->logo ?  asset($company->logo) : asset('logos/no-image.jpg')}}" class="img-fluid rounded-start" alt="logo">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
