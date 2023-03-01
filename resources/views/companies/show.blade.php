@@ -127,7 +127,7 @@ echo <<<JS
                 });
                 myMap.geoObjects.add(myPlacemark);
             });
-}
+    }
 JS
 ?>
 </pre>
